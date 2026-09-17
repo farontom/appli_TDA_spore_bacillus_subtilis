@@ -17,7 +17,8 @@ from sklearn.cluster import DBSCAN
 from scipy.stats import mannwhitneyu
 from statsmodels.stats.multitest import multipletests
 import kmapper as km
-
+from sklearn.manifold import TSNE
+import umap
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FICHIERS
@@ -121,6 +122,37 @@ def compute_lens(X, meta=None, lens="pca", n_components=7, color_name="methodes"
         model  = PLSRegression(n_components=n_comp)
         model.fit(X, y)
         return model, model.x_scores_
+    elif lens == "tsne":
+
+        perplexity = min(30, X.shape[0] - 1)
+
+        model = TSNE(
+            n_components=n_components,
+            perplexity=perplexity,
+            init="pca",
+            learning_rate="auto",
+            random_state=42,
+            method="exact"
+        )
+    
+        Z = model.fit_transform(X)
+    
+        return model, Z
+    elif lens == "umap":
+
+        n_comp = min(n_components, X.shape[0] - 2)
+    
+        model = umap.UMAP(
+            n_components=n_comp,
+            n_neighbors=min(15, X.shape[0] - 1),
+            min_dist=0.1,
+            metric="euclidean",
+            random_state=42,
+        )
+    
+        Z = model.fit_transform(X)
+    
+        return model, Z
     elif lens in ["mfa", "mbpca", "mbpls", "o2pls", "mcoa"]:
         return _compute_lens_MB(X, lens=lens, n_components=n_components)
 
