@@ -35,7 +35,12 @@ treatments = ["UVB wet", "UVC wet", "UVB dry", "UVC dry"]
 # calculé pour cette combinaison exacte de paramètres.
 all_graphs = {}
 
-LENS_MONO = [{"label": "PCA", "value": "pca"}, {"label": "PLS-DA", "value": "plsda"}]
+LENS_MONO = [
+    {"label": "PCA", "value": "pca"},
+    {"label": "PLS-DA", "value": "plsda"},
+    {"label": "t-SNE", "value": "tsne"},
+    {"label": "UMAP", "value": "umap"},
+]
 LENS_MB   = [{"label": "MFA", "value": "mfa"}, {"label": "MB-PCA", "value": "mbpca"},
              {"label": "MB-PLS", "value": "mbpls"}, {"label": "O2-PLS", "value": "o2pls"},
              {"label": "MCOA", "value": "mcoa"}]
